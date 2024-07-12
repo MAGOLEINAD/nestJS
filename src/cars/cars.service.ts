@@ -1,32 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as UUID } from 'uuid';
-import { car } from './interface/car.interface';
+import { Car } from './interface/car.interface';
 import { updateCarDto, createCarDto } from './dto';
 //*Entiendo que en el servicio estaria el acceso a la base de datos y defino los metodos que utilizare para manipularlos.
 
 @Injectable()
 export class CarsService {
 
-    private cars: car[] = [
-        {
-            id: UUID(),
-            model: 'Tesla Model S',
-            year: 2021,
-            price: 79999,
-        },
-        {
-            id: UUID(),
-            model: 'Ford Mustang',
-            year: 2020,
-            price: 55999,
-        },
-        {
-            id: UUID(),
-            model: 'Chevrolet Camaro',
-            year: 2019,
-            price: 42999,
-        },
-    ];
+    private cars: Car[] = [];
+
     findAll() {
         return this.cars
     }
@@ -38,7 +20,7 @@ export class CarsService {
     }
     // Método para crear auto 
     create(createCarDto: createCarDto) {
-        const newCar: car = {
+        const newCar: Car = {
             id: UUID(),
             ...createCarDto
         }
@@ -65,5 +47,10 @@ export class CarsService {
     deleteCarById(id: string) {
 
      this.cars = this.cars.filter(car => car.id !== id  )
+    }
+
+      // Método para obtener Carros de DB / SEEDS.
+    fillsCarsWithSeedData(cars: Car[]) {
+        this.cars = cars
     }
 }
